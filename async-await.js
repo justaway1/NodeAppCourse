@@ -12,7 +12,16 @@ const getPath = path => {
     })
   })
 }
-//calling the function
-getPath('./content/firstfile.txt')
-  .then(data => console.log(data))
-  .catch(err => console.log(err))
+/**
+Retrieves the content of a text file given its path.
+ */
+const getFile = async () => {
+  try {
+    const textFile = await getPath('./content/firstfile.txt')
+    console.log(textFile)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+getFile()
