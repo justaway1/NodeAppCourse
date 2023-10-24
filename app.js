@@ -1,6 +1,17 @@
-const _ = require('lodash')
+const { readFile } = require('fs')
 
-const items = [1, [2, [3, [4]]]]
-const newItems = _.flattenDeep(items)
-console.log('Hello Friends')
-console.log(newItems)
+const getPath = path => {
+  return new Promise((resolve, reject) => {
+    readFile(path, 'utf8', (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
+
+getPath('./content/firstfile.txt')
+  .then(data => console.log(data))
+  .catch(err => console.log(err))
