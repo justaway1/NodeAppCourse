@@ -1,12 +1,10 @@
 const http = require('http')
 
-const server = http.createServer((req, res) => {
-  if (req.url === '/') {
-    res.end('Welcome to our home page')
-  }
-  if (req.url === '/about') {
-    res.end('Welcome to our about page')
-  }
+//using an EventEmitter API
+const server = http.createServer()
+
+server.on('request', (req, res) => {
+  res.end('Welcome')
 })
 //Listening on port 5000
 server.listen(5000, () => {
