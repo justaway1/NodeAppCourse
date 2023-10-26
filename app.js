@@ -1,21 +1,16 @@
-const { writeFileSync, createReadStream } = require('fs')
+const http = require('http')
+const { createReadStream } = require('fs')
 
-// write 10000 /Hello World/ Words in the file.
-for (let i = 0; i < 10000; i++) {
-  writeFileSync('./content/big.txt', 'Hello World\n', { flag: 'a' })
-}
-//Reads the file in chunks
-//highwatermark is the number of bytes to read from the file default is 65000
-const stream = createReadStream('../content/big.txt', {
-  highWaterMark: 1000000
-})
-
-//Using the stream
-stream.on('data', result => {
-  console.log(result)
-})
-
-//Error event
-stream.on('error', err => {
-  console.log(err)
-})
+http
+  .createServer((req, res) => {
+    // const text = fs.readFileSync('./content/big.txt', 'utf8')
+    // res.end(text)
+    const fileStream = createReadStream('./content/big.txt', 'utf8')
+    fileStream.on('open', () => {
+      fileStream.pipe(res)
+    })
+    fileStream.on('error', error => {
+      res.end(error)
+    })
+  })
+  .listen(5000)
